@@ -1,0 +1,21 @@
+
+# Import all packages listed as Imports or Depends
+import("grDevices")
+import("utils")
+import("raster")
+importFrom("plotrix", color.legend)
+importFrom("fields", image.plot)
+importFrom("abind", abind)
+import("maps")
+import("mapdata")
+import("maptools")
+importFrom("marmap", getNOAA.bathy)
+import("rgdal")
+import("methods")
+import("ncdf4")
+#import("sp")
+
+# Export all names
+exportPattern("^[^\\.]")
+
+

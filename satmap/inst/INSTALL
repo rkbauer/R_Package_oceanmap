@@ -1,0 +1,30 @@
+#####' building package:
+
+#' under linux, run in terminal:
+R CMD build 'satmap'
+
+#' under windows
+- install Rtools
+- set path in computer -> system -> advanced -> environmental variables -> path
+c:\Rtools\bin;c:\Rtools\gcc-4.6.3\bin;c:\R\R-3.0\bin\i386;c:\windows;c:\windows\system32
+
+- run inside R:
+setwd(pathtounzippedpackage)
+system('Rcmd INSTALL --build satmap')
+
+#####' installing package:
+
+#' under linux, run in terminal:
+R CMD INSTALL 'satmap'
+
+#' or inside the R-console
+system('R CMD check satmap')
+system('R CMD build satmap')
+system("R CMD INSTALL 'satmap'")
+system("R CMD Rd2pdf --pdf 'satmap'")
+system("mv satmap.pdf satmap/inst/doc/")
+
+#' under windows
+- run inside R:
+setwd(pathtozippedpackage)
+system('Rcmd INSTALL satmap')

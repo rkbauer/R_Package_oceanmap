@@ -1,0 +1,16 @@
+Package: satmap
+Type: Package
+Title: Advanced plot tools for spatial data
+Version: 0.0.1
+Date: 2014-03-16
+Author: Robert K. Bauer
+Maintainer: Robert K. Bauer <robert.bauer@ifremer.fr>
+Depends: R (>= 2.10), utils, raster, grDevices, ncdf4, maps, maptools, mapdata
+Imports: abind, fields, marmap, plotrix, rgdal, methods
+Description:  Advanced plot tools for spatial (satellite, bathymetric and topographic) data. Recognized classes and formats include ncdf4, Raster, .nc- and .gz-files.
+License: GPL (>= 3)
+Packaged: 2014-03-16 16:03:02 UTC; Montpellier
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2014-04-30 16:03:02
+SystemRequirements: ImageMagick
