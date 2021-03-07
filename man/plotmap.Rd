@@ -15,7 +15,7 @@ plotmap(region=v_area, lon, lat, add=F, asp,
         v_area, xlim, ylim
         )
 
-ggplotmap(region=v_area, lon=xlim, lat=ylim,  asp, 
+ggplotmap(region=v_area, lon=xlim, lat=ylim, add_to, asp, 
           grid=T, grid.res, resolution=0, 
           main, axes=T, axeslabels=axes, ticklabels=T,
           fill.land=T, col.land="grey", col.bg=NA, border='black', 
@@ -31,8 +31,9 @@ Vector returning longitude coordinates of the area to be plotted.
   \item{lat, ylim}{
 Vector returning latitude coordinates of the area to be plotted.
 }
-  \item{add}{
-whether the a the landmask should be added to an existent figure (default is \code{FALSE})
+  \item{add, add_to}{
+whether the a the landmask should be added to an existent figure (default is \code{FALSE}) or an existing ggplot object, in case of
+ \code{ggplotmap}.
 }
 
   \item{asp}{
@@ -116,7 +117,10 @@ lat <- c(30, 46)
 figure(width=9.75,height=5.28)
 plotmap(lon=lon, lat=lat, main="Mediterranean Sea")
 plotmap(xlim=lon, ylim=lat, main="Mediterranean Sea")
-ggplotmap(xlim=lon, ylim=lat)
+ggobj <- ggplotmap(xlim=lon, ylim=lat)
+ggobj
+ggplotmaply(ggobj)
+
 
 ## b) plot landmask of the Mediterranean Sea by using an extent-object:
 library('raster')
@@ -140,7 +144,18 @@ points(3.7008, 43.4079, pch=19)
 ggplotmap(xlim=lon, ylim=lat)
 
 library(ggplot2)
-ggplotmap("lion") + geom_point(data=data.frame(x=3.7008, y=43.4079),aes(x,y),size=5,colour="blue")
+ggobj <- ggplotmap("lion") + 
+         geom_point(data=data.frame(x=3.7008, y=43.4079),aes(x,y),size=5,colour="blue")
+ggobj
+## ggplotmaply(ggobj)
+## f <- ggplotmaply(ggobj)
+## pos <- as.data.frame(list(x=c(5.83, 4.91, 5.67, 5.91, 6.31, 6.37, 
+##                               5.66, 5.54, 5.51, 5.67, 5.89, 5.97),
+##                           y=c(42.89, 42.27, 42.42, 42.33, 42.1, 41.92, 
+##                               41.74, 41.45, 41.32, 41.21, 41.04, 40.96)
+##                          ))
+## f %>% add_trace(data = pos,x = ~x, y= ~y,type='scatter',mode='marker',name="new pos") 
+
 
 
 #### Example 2: subplots and some additional arguments of plotmap()

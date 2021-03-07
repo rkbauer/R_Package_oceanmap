@@ -1,10 +1,11 @@
-ggplotmap <- function(region=v_area, lon=xlim, lat=ylim,  asp, 
+ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp, 
                          grid=T, grid.res, resolution=0, 
                          main, axes=T, axeslabels=axes, ticklabels=T,#, cex.lab=0.8, cex.ticks=0.8, las=1, add=F,
                          fill.land=T, col.land="grey", col.bg=NA, border='black', bwd=1.5, v_area, xlim, ylim){
   worldHiresMapEnv <- NULL
   if(!missing(xlim) & !missing(ylim))  {
-    lon <- xlim; lat <- ylim
+    ext <- extent(c(xlim,ylim))
+    lon <- ext[1:2]; lat <- ext[3:4]
   }
   
   show.plot <- T
@@ -31,7 +32,6 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim,  asp,
     if(missing(lat) | missing(lon)){
       lon <- par()$usr[1:2]
       lat <- par()$usr[3:4]
-      add <- T
     }
   }
   if(!missing(lon) & !missing(lat))  r <- data.frame(xlim=lon,ylim=range(lat))
@@ -95,7 +95,7 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim,  asp,
       # try(maps::map(database='worldHires', fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border))
     }
     m <- maps::map(worldmap, xlim = r$xlim, ylim = r$ylim, plot = F, exact = F, fill = TRUE)
-    wrld2 = st_as_sf(m)
+    wrld2 = sf::st_as_sf(m)
     # m <- .fortify.map(m)
     #### old code
     #   if(any(r$xlim > 180)) {
@@ -116,17 +116,22 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim,  asp,
   if(axeslabels){
     xlab <- "Longitude"
     ylab <- "Latitude"
+  }else{
+    xlab <- ""
+    ylab <- ""
   }
   # wrld2 = st_as_sf(map('world2', plot=F, fill=T,resolution=0))
-  a = ggplot() +
+  if(missing(add_to)) add_to <- ggplot()
+  a = add_to +
     geom_sf(data=wrld2, fill='lightgray') +
     geom_polygon(bg=col.land,colour=border)
   
-  if(grid){
-    a <- a + coord_sf(xlim=r$xlim, ylim=r$ylim,expand = F)
-  }else{
-    a <- a + coord_sf(xlim=r$xlim, ylim=r$ylim,expand = F, datum=NA)
-  }
+  # if(ticklabels){
+    a <- a + coord_sf(xlim=r$xlim, ylim=r$ylim,expand = F) 
+  # }
+    # else{
+  #   a <- a + coord_sf(xlim=r$xlim, ylim=r$ylim,expand = F, datum=NA)
+  # }
   
   r$xlim <- xrange <- a$coordinates$limits$x
   
@@ -206,25 +211,53 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim,  asp,
   xlabels <- xlabels[xlabels >= r$xlim[1] & xlabels <= r$xlim[2]]
   ylabels <- seq(y[1],y[2],grid.res)
   ylabels <- ylabels[ylabels >= r$ylim[1] & ylabels <= r$ylim[2]]
+  at.ylabels <- ylabels
   # EW <- rep(" E",length(xlabels))
   # EW[xlabels < 0 | xlabels > 180] <- " W"
   at.xlabels <- xlabels
   xlabels[xlabels > 180] <- xlabels[xlabels > 180] - 360
   # NS <- rep(" N",length(ylabels))
   # NS[ylabels < 0] <- " S"
-  
+  if (length(ticklabels) == 1) ticklabels <- rep(ticklabels,2)
   
   if(!all(c(0,360) %in% at.xlabels)){
-    if(ticklabels) a <- a + scale_x_continuous(breaks = at.xlabels) +
-        scale_y_continuous(breaks = ylabels)
+    if(ticklabels[1]) {
+      a <- a + scale_x_continuous(breaks = at.xlabels)
+    }else{
+      a <- a + scale_x_continuous(breaks = at.xlabels,labels = replace(at.xlabels,values = ""))
+    }
+    if(ticklabels[2]) {
+      a <- a + scale_y_continuous(breaks = at.ylabels)
+    }else{
+      a <- a + scale_y_continuous(breaks = at.ylabels,labels = replace(at.ylabels,values = ""))
+    }
   }
+  
+  # if(!ticklabels[1]) xlabels <- replace(xlabels,values = "")
+  # if(!ticklabels[2]) ylabels <- replace(ylabels,values = "")
+  # 
+  # if(!all(c(0,360) %in% at.xlabels)){
+  #   # if(ticklabels) {
+  #   a <- a + scale_x_continuous(breaks = at.xlabels,labels = xlabels) +
+  #     scale_y_continuous(breaks = at.yabels,labels = ylabels)
+  #   # }
+  # }
+  # 
+  
   # if(ticklabels) a <- a + scale_x_continuous(breaks = xlabels) +
   # scale_y_continuous(breaks = ylabels)
   
-  
   # 
-  a <- a + theme(panel.grid.minor = element_blank(), panel.background = element_blank(), panel.ontop = T, panel.grid.major = element_line(colour = "black", linetype = "dotted"))
-  if(!is.na(col.bg)) a <- a + theme(panel.background = element_rect(fill=col.bg, colour=col.bg), panel.ontop = F)
+  a <- a + theme(panel.grid.minor = element_blank(), 
+                 panel.background = element_blank(), 
+                 panel.ontop = T)
+  if(grid) {
+    a <- a + theme(panel.grid.major = element_line(colour = "black", linetype = "dotted"))
+  }else{
+    a <- a + theme(panel.grid.major = element_blank())
+  }
+  if(!is.na(col.bg)) a <- a + theme(panel.background = element_rect(fill=col.bg, colour=col.bg), 
+                                    panel.ontop = F)
   return(a)
 }
 

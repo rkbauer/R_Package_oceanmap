@@ -13,6 +13,8 @@ importFrom("raster",getValues)
 importFrom("raster",init)
 importFrom("raster",mask)
 importFrom("raster",extract)
+importFrom("plotly",ggplotly)
+importFrom("plotly",layout)
 
 
 importFrom("plotrix", color.legend)
@@ -28,9 +30,10 @@ importFrom("sp", SpatialLines, Lines, Line, proj4string)
 importFrom("stats", setNames)
 #import("rgdal")
 import("methods")
-import("graphics")
+import("graphics", except=c(layout))
 import("ncdf4")
 import("ggplot2")
+import("ggedit")
 importFrom("sf",st_as_sf)
 
 # Export all names

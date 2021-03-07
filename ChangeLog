@@ -1,5 +1,8 @@
 oceanmap versions
 
+oceanmap_0.1.3 Aug 27, 2021 (Robert Bauer)
+        - adding ggplotmaply function
+
 oceanmap_0.1.2 Aug 27, 2020 (Robert Bauer)
         - adding ggplotmap function
 
