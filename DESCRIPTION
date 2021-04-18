@@ -2,15 +2,15 @@ Package: oceanmap
 Type: Package
 Title: A Plotting Toolbox for 2D Oceanographic Data
 Version: 0.1.3
-Date: 2021-02-10
+Date: 2021-04-18
 Author: Robert K. Bauer
-Maintainer: Robert K. Bauer <marine.biologging@gmail.com>
+Maintainer: Robert K. Bauer <rkbauer@hawaii.edu>
 Depends: R (>= 3.5.0), maps, mapdata, raster, extrafont
 Imports: abind, fields, plotrix, methods, utils, grDevices, maptools, sp, ncdf4, stats, lubridate, ggplot2, ggedit, sf(>= 0.9-7), plotly
 Description:  Plotting toolbox for 2D oceanographic data (satellite data, sea surface temperature, chlorophyll, ocean fronts & bathymetry). Recognized classes and formats include netcdf, Raster, '.nc' and '.gz' files.
 License: GPL (>= 3)
-Packaged: 2021-02-10 10:27:52 UTC; Mainz
+Packaged: 2021-04-18 12:15:25 UTC; Mainz
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2021-02-10 10:28:01
+Date/Publication: 2021-04-18 12:18:37
 SystemRequirements: ImageMagick

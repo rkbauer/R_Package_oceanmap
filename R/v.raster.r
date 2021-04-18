@@ -1,7 +1,7 @@
 v.raster <- function(obj, varname, layer=1, param=varname, zlim, minv, maxv, adaptive.vals, replace.na=F, Log, main, 
                      show.colorbar,cbpos='',cbx, cby, cb.title, cb.xlab, cb.xlab.line=0, pal, nticks=5,
                      sidelabels=F, Ylab=F, axeslabels=T, ticklabels=T, cex.lab=0.8, cex.ticks=0.8, cex.cb.title=0.9,cex.cb.xlab=0.8,cex.cb.ticks=0.7,
-                     subplot=F, width, height, figdim, xpos=-1, Save=F, plotfolder=".", plotname, fileformat="png", suffix, 
+                     subplot=T, width, height, figdim, xpos=-1, Save=F, plotfolder=".", plotname, fileformat="png", suffix, 
                      region, v_area=region, v_image=T, v_contour=F, levels, contour.labels=NULL, v_arrows=F, scale_arrow=1, 
                      fill.land=T, col.land="grey", col.bg=NA,border='black', grid=T, grid.res, bwd=2,cb.ticks.srt=90,las=1,
                      dates,terrain=T,verbose=T){

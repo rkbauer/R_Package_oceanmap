@@ -1,9 +1,10 @@
 
-clim_plot <- function(obj, folder, plotfolder=".", plotname, question=T, sst.frontcolor='red', chla.frontcolor='blue',sidelabels=F, Ylab=F, axeslabels=T, v_area,...
+clim_plot <- function(obj, folder, plotfolder=".", plotname, question=T, sst.frontcolor='red', 
+                      chla.frontcolor='blue',sidelabels=F, Ylab=F, axeslabels=T, v_area,...
                       #                       zlim, minv, maxv, adaptive.vals, replace.na=F, main,
                       #                       cb.title, cb.xlab,
                       #                       ticklabels=T, cex.lab=0.8, cex.ticks=0.8, 
-                      #                       subplot=F, suffix='',
+                      #                       subplot=T, suffix='',
                       #                       v_area, v_image=T, v_contour=F, v_arrows=F, scale_arrow,
                       #                       fill=T, col="grey", border='black', grid=T, grid.res, bwd=1
 ){

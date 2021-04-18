@@ -301,11 +301,11 @@ ncdf <- nc_open(nfiles[1])
 # ## b) only contour lines:
 # par(mfrow=c(1,2))
 # h <- get.bathy("lion",terrain=F,res=3, visualize=T,
-#                subplot=T, v_image = FALSE, levels=c(200,2000))
+#                v_image = FALSE, levels=c(200,2000))
 # 
 # ## use v-function for same plot but on subregion:
 # v(h,v_area = "survey", param="bathy",
-#   subplot=T, v_image = FALSE, levels=c(200,2000)) 
+#   v_image = FALSE, levels=c(200,2000)) 
 
 
 ## Example 3: plot sample-'.gz'-file
@@ -355,10 +355,10 @@ names(parameter_definitions)
 ## Example I: plot bathymetry using a v_area-keyword
 ## requires server connection!
 # par(mfrow=c(2,1))
-# v("bathy","lion",res=4, keep=TRUE,border='grey',subplot=TRUE, 
+# v("bathy","lion",res=4, keep=TRUE,border='grey', 
 #   main='Gulf of Lions bathymetry',cb.title="resolution 4 min")
 
-# v("bathy","lion",res=1, keep=TRUE,border='grey',subplot=TRUE,
+# v("bathy","lion",res=1, keep=TRUE,border='grey',
 #   cb.title="resolution 1 min")  # can take some time depending on server connection!
 
 
@@ -390,7 +390,7 @@ gz.files <- Sys.glob(paste0(path,'/*.gz')) # load sample-'.gz'-files
 ## Example VI: plot subregion of gz-files as subplots
 # graphics.off()
 # par(mfrow=c(2,1))
-# v(gz.files[1:2],v_area='lion',subplot=TRUE) # run ?region_definitions to see predefined regions
+# v(gz.files[1:2],v_area='lion') # run ?region_definitions to see predefined regions
 
 
 ## Example VII: plot subregion of raster file

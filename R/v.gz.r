@@ -1,6 +1,6 @@
 v.gz <- function(obj, v_area=region, adaptive.vals=F, param, zlim, minv, maxv, replace.na=F, Log, main, cbpos,cbx, cby, cb.title, cb.xlab, cb.xlab.line=0, pal, nticks=5,
                  sidelabels=F, Ylab=F, axeslabels=T, ticklabels=T, show.colorbar, cex.lab=0.8, cex.ticks=0.8, cex.cb.title=0.9,cex.cb.xlab=0.8,cex.cb.ticks=0.7,
-                 subplot=F, width, height, figdim, xpos=-1, Save=F, plotfolder, plotname, fileformat="png", suffix='', 
+                 subplot=T, width, height, figdim, xpos=-1, Save=F, plotfolder, plotname, fileformat="png", suffix='', 
                  region, v_image=T, v_contour=F, levels, contour.labels=NULL, v_arrows=F, scale_arrow=1, 
                  fill.land=T, col.land="grey", col.bg=NA,border='black', grid=T, grid.res, cb.ticks.srt=90,las=0, bwd=2, verbose=T){
   if(missing(show.colorbar)) show.colorbar <- T    

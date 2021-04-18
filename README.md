@@ -1,11 +1,10 @@
 
-
 <p align="center">
   <img src="./img/oceanmap_logo.svg" alt="Size Limit CLI" width="300">
 </p>
 
 
-<h4 align="center">An R-Package for Mapping and Interactive Visualization of Oceanographic Data.</h4>
+<h4 align="center">An R-Package for Mapping and Interactive Visualization of Oceanographic Data</h4>
 
 <p align="center">
   <a href="#author">Author</a> •
@@ -33,7 +32,6 @@ ready for scientific publication can be a tricky and time consuming task.
 The oceanmap package provides some helpful functions to facilitate and optimize the
 visualization of geographic and oceanographic data, such as satellite and bathymetric
 data sets.
-
 
 ## Key Features
 

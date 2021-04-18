@@ -47,8 +47,11 @@ v.bathy <- get.bathy <- function(v_area,lon,lat,resolution=4, keep=F, savename.b
 #     bathy <- getNOAA.bathy(lon1 = min(lon), lon2 = max(lon), lat1 = min(lat), lat2 = max(lat),
 #                            resolution = resolution)   
     
-    pos <- .getNOAA.bathy(lon1 = min(lon), lon2 = max(lon), lat1 = min(lat), lat2 = max(lat),
-                           resolution = resolution)
+    pos <- .getNOAA.bathy(lon1 = min(lon), 
+                          lon2 = max(lon), 
+                          lat1 = min(lat), 
+                          lat2 = max(lat),
+                          resolution = resolution)
 
     ext <- raster::extent(c(lon),lat)
     dd <- raster::raster(ext, ncol=length(unique(pos[,1])), nrow=length(unique(pos[,2])))

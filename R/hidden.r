@@ -1,23 +1,64 @@
-.getNOAA.bathy <- function(lon1,lon2,lat1,lat2, resolution = 4, keep=FALSE, antimeridian=FALSE)   {
+.getNOAA.bathy <- function(lon1, lon2, lat1, lat2, resolution = 4, keep=FALSE, antimeridian=FALSE)   {
   x1=x2=y1=y2 = NULL
+  if (lon1 == lon2) 
+    stop("The longitudinal range defined by lon1 and lon2 is incorrect")
+  if (lat1 == lat2) 
+    stop("The latitudinal range defined by lat1 and lat2 is incorrect")
+  if (lat1 > 90 | lat1 < -90 | lat2 > 90 | lat2 < -90) 
+    stop("Latitudes should have values between -90 and +90")
+  if (lon1 < -180 | lon1 > 180 | lon2 < -180 | lon2 > 180) 
+    stop("Longitudes should have values between -180 and +180")
+  if (resolution < 1) 
+    stop("The resolution must be equal to or greater than 1")
   
-  if (lon1 < lon2) {lon1->x1 ; lon2->x2} else {lon1->x2 ; lon2->x1}
-  if (lat1 < lat2) {lat1->y1 ; lat2->y2} else {lat1->y2 ; lat2->y1}
+  if(lon1 < lon2) {
+    lon1 -> x1
+    lon2 -> x2
+  }else{
+    lon1 -> x2
+    lon2 -> x1
+  }
   
-  res = resolution * 0.016666666666666667
+  if(lat1 < lat2){
+    lat1 -> y1
+    lat2 -> y2
+  }else{
+    lat1 -> y2
+    lat2 -> y1
+    }
   
+  x1 <- round(x1, 1)
+  x2 <- round(x2, 1)
+  y1 <- round(y1, 1)
+  y2 <- round(y2, 1)
+  ncell.lon <- (x2 - x1) * 60/resolution
+  ncell.lat <- (y2 - y1) * 60/resolution
+  
+  if (ncell.lon < 2 & ncell.lat < 2) 
+    stop("It's impossible to fetch an area with less than one cell. Either increase the longitudinal and longitudinal ranges or the resolution (i.e. use a smaller res value)")
+  if (ncell.lon < 2) 
+    stop("It's impossible to fetch an area with less than one cell. Either increase the longitudinal range or the resolution (i.e. use a smaller resolution value)")
+  if (ncell.lat < 2) 
+    stop("It's impossible to fetch an area with less than one cell. Either increase the latitudinal range or the resolution (i.e. use a smaller resolution value)")
+    
   fetch <- function(x1,y1,x2,y2,res) {
-    WEB.REQUEST <- paste("https://gis.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.xyz?filename=etopo1.xyz&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=xyz&resx=", res, "&resy=", res, "&bbox=", x1, ",", y1, ",", x2, ",", y2, sep = "")
-    dat <- suppressWarnings(try(read.table(WEB.REQUEST),silent=TRUE))
+    ncell.lon <- floor(ncell.lon)
+    ncell.lat <- floor(ncell.lat)
+    WEB.REQUEST <- paste0("https://gis.ngdc.noaa.gov/arcgis/rest/services/DEM_mosaics/ETOPO1_bedrock/ImageServer/exportImage?bbox=", 
+                          x1, ",", y1, ",", x2, ",", y2, "&bboxSR=4326&size=", 
+                          ncell.lon, ",", ncell.lat, "&imageSR=4326&format=tiff&pixelType=S16&interpolation=+RSP_NearestNeighbor&compression=LZW&f=image")
+    dat <- suppressWarnings(try(raster::raster(x = WEB.REQUEST), 
+                                silent = TRUE))
+    dat <- .as.xyz(.as.bathy(dat))
     return(dat)
   }
   
   # Naming the file
-  if (antimeridian) {
-    FILE <- paste("marmap_coord_",x1,";",y1,";",x2,";",y2,"_res_",resolution,"_anti",".csv", sep="")
-  } else {
-    FILE <- paste("marmap_coord_",x1,";",y1,";",x2,";",y2,"_res_",resolution,".csv", sep="")
-  }
+  # if (antimeridian) {
+  #   FILE <- paste("marmap_coord_",x1,";",y1,";",x2,";",y2,"_res_",resolution,"_anti",".csv", sep="")
+  # } else {
+  #   FILE <- paste("marmap_coord_",x1,";",y1,";",x2,";",y2,"_res_",resolution,".csv", sep="")
+  # }
   
 #   # If file exists in the working directory, load it,
 #   if(FILE %in% list.files() ) {
@@ -68,4 +109,65 @@
 #     
     return(bath)
 #   }
+}
+
+
+.as.xyz <- function(bathy){
+  if (class(bathy) != "bathy") stop("Objet is not of class bathy")
+  lon <- as.numeric(rownames(bathy))
+  lat <- as.numeric(colnames(bathy))
+  xyz <- data.frame(expand.grid(lon, lat), as.vector(bathy))
+  xyz <- xyz[order(xyz[, 2], decreasing = TRUE), ]
+  names(xyz) <- c("V1", "V2", "V3")
+  rownames(xyz) <- 1:nrow(xyz)
+  return(xyz)
+}
+
+.as.bathy <- function(x){
+  if (is(x, "bathy")) 
+    stop("Object is already of class 'bathy'")
+  if (is(x, "SpatialGridDataFrame")) 
+    x <- raster::raster(x)
+  if (is(x, "RasterLayer")) {
+    lat.min <- x@extent@xmin
+    lat.max <- x@extent@xmax
+    lon.min <- x@extent@ymin
+    lon.max <- x@extent@ymax
+    nlat <- x@ncols
+    nlon <- x@nrows
+    lon <- seq(lon.min, lon.max, length.out = nlon)
+    lat <- seq(lat.min, lat.max, length.out = nlat)
+    bathy <- t(raster::as.matrix(raster::flip(x, direction = "y")))
+    colnames(bathy) <- lon
+    rownames(bathy) <- lat
+  }
+  if (ncol(x) == 3 & !exists("bathy", inherits = FALSE)) {
+    bath <- x
+    bath <- bath[order(bath[, 2], bath[, 1], decreasing = FALSE), 
+    ]
+    lat <- unique(bath[, 2])
+    bcol <- length(lat)
+    lon <- unique(bath[, 1])
+    brow <- length(lon)
+    if ((bcol * brow) == nrow(bath)) {
+      bathy <- matrix(bath[, 3], nrow = brow, ncol = bcol, 
+                      byrow = FALSE, dimnames = list(lon, lat))
+    }
+    else {
+      colnames(bath) <- paste("V", 1:3, sep = "")
+      bathy <- reshape2::acast(bath, V1 ~ V2, value.var = "V3")
+    }
+  }
+  if (!exists("bathy", inherits = FALSE)) 
+    stop("as.bathy requires a 3-column table, or an object of class RasterLayer or SpatialDataFrame")
+  ordered.mat <- .check.bathy(bathy)
+  class(ordered.mat) <- "bathy"
+  return(ordered.mat)
+}
+
+.check.bathy <- function(x){
+  xc <- order(as.numeric(colnames(x)))
+  xr <- order(as.numeric(rownames(x)))
+  sorted.x <- x[xr, xc]
+  return(sorted.x)
 }
