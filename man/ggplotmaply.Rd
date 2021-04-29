@@ -63,10 +63,29 @@ library(ggplot2)
 # ggplotmaply(ggobj)
 # ggplotmaply(ggobj)
 
-## d) plot landmask of the enntire Mediterranean Sea by using keyword:
+## d) plot landmask of the entire Mediterranean Sea by using keyword:
  ggobj <- ggplotmap("med4") + 
           geom_point(data=data.frame(x=3.7008, y=43.4079),aes(x,y),size=5,colour="blue")
 # ggobj
-ggplotmaply(ggobj,expand = 10)
+# ggplotmaply(ggobj,expand = 10)
+
+
+## e) add landmask to raster image plot (similar to v()-call)
+# library(dplyr)
+# library(ggplot2)
+# data(cmap)
+# setwd(system.file("test_files", package="oceanmap"))
+# nc <- nc2raster(ncfiles[1])
+# rs2df <- nc[[1]] %>% ## take first layer
+#          rasterToPoints() %>% ## convert raster to xyz matrix
+#          as.data.frame() ## convert to data frame
+# names(rs2df) <- c("Lon","Lat","Conc") ## reset names (important for ggplotmaply hover text)
+# ggobj <- ggplot() + geom_raster(data = rs2df, aes(x=Lon,y=Lat,fill=Conc)) 
+# ggobj_with_land_mask <- ggplotmap(add_to = ggobj) + 
+#                         scale_fill_gradientn(colours=cmap$jet) # change colorbar
+# ggobj_with_land_mask 
+# ggplotmaply(ggobj_with_land_mask)
+
+
 }
 

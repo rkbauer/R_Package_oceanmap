@@ -30,8 +30,10 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
     }
   }else{
     if(missing(lat) | missing(lon)){
-      lon <- par()$usr[1:2]
-      lat <- par()$usr[3:4]
+      if(!missing(add_to)){
+      lon <- ggplot_build(add_to)$layout$panel_scales_x[[1]]$range$range
+      lat <- ggplot_build(add_to)$layout$panel_scales_y[[1]]$range$range
+      }
     }
   }
   if(!missing(lon) & !missing(lat))  r <- data.frame(xlim=lon,ylim=range(lat))
