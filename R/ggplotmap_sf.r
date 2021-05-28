@@ -79,7 +79,7 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   if(missing(asp)) asp <- 1/aspect[1]
   ###
   
-  if(any(r$xlim < -180)) r$xlim <- r$xlim+360
+  if(any(r$xlim <= -180)) r$xlim <- r$xlim+360
   
   if(fill.land){
     if(any(r$xlim > 180)) {
@@ -228,6 +228,7 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
     }else{
       a <- a + scale_x_continuous(breaks = at.xlabels,labels = replace(at.xlabels,values = ""))
     }
+    
     if(ticklabels[2]) {
       a <- a + scale_y_continuous(breaks = at.ylabels)
     }else{
