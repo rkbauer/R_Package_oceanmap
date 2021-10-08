@@ -26,8 +26,9 @@ nc2time <- function(nc,varname){
     }
   }
   if (doseconds) {
-    startTime <- substr(un, 15, 33)
-    startTime <- strptime(startTime, "%Y-%m-%d %H:%M:%OS")
+    startTime0 <- substr(un, 15, 33)
+    startTime <- strptime(startTime0, "%Y-%m-%d %H:%M:%OS")
+    if(is.na(startTime)) startTime <- strptime(startTime0, "%Y-%m-%dT%H:%M:%S")
     time <- startTime + as.numeric(time)
 #     time <- as.character(time)
   }

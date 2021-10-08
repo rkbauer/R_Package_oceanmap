@@ -6,8 +6,7 @@ Convert Raster layer to a matrix or array}
 \code{nc2raster} converts a netcdf-file ('.nc'-file) or \code{ncdf4}-object to a Raster* object, setting the time variable as layer name.
 }
 \usage{
-nc2raster(nc, varname, t=layer, lonname="lon", latname="lat", 
-    layer, date=T)
+nc2raster(nc, varname, t=layer, layer, verbose=FALSE)
 }
 \arguments{
 \item{nc}{character string indicating the filepath to a netcdf-file ('.nc'-file), or a \code{ncdf4}-object.
@@ -17,20 +16,12 @@ nc2raster(nc, varname, t=layer, lonname="lon", latname="lat",
 character string indicating the name of the netcdf-variable to be selected.
 }
 
- \item{lonname}{
- character string indicating the name of the longitude-variable of \code{ncdf4}-objects and \code{'.nc'}-files to plot (default is \code{'lon'})
-}
- 
- \item{latname}{
- character string indicating the name of the latitude-variable of \code{ncdf4}-objects and \code{'.nc'}-files to plot (default is \code{'lat'})
-}
-
  \item{layer, t}{
 layer/time stemp to select in multi-layer files.
 }
 
- \item{date}{
-whether the layer names should be set to the date of the ncdf-file layer (default is \code{TRUE}, format is 'X\%Y\%m\%d').
+ \item{verbose}{
+should information about the netcdf file, including the variables and dimensions it contains, be printed during loading? (default is \code{FALSE})
 }
 }
 

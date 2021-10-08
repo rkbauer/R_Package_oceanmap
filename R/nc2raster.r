@@ -1,11 +1,11 @@
-nc2raster <- function(nc,varname,t=layer,lonname="lon",latname="lat",layer,date=T){
+nc2raster <- function(nc,varname,t=layer,layer,verbose=FALSE){
   #   #inst.pkg('ncdf4')
   #   #inst.pkg('raster')
   #   cat(paste("editing file:",ncfile\n))
   if(class(nc) != "ncdf4"){
     nc <- nc_open(nc) # open netcdf file
   }
-  print(nc) # print netcdf information, like ncdump
+  if(verbose) print(nc) # print netcdf information, like ncdump
   
   if(missing(varname)) varname <- c() 
   #   if(missing(varname)) varname <- "Conc"
@@ -19,7 +19,7 @@ nc2raster <- function(nc,varname,t=layer,lonname="lon",latname="lat",layer,date=
     }
   }
   z <- ncvar_get(nc,varname)
-  
+  date <- T
   if(length(dim(z)) > 2){
     if(missing(layer)){
       if(!missing(t)){
@@ -30,7 +30,11 @@ nc2raster <- function(nc,varname,t=layer,lonname="lon",latname="lat",layer,date=
     }else{
       z <- z[,,layer]
     }
+  }else{
+    layer <- 1
+    if(!any(grepl('time', nc))) date <- F
   }
+  
   
   if(is.logical(date)){
     if(date & any(grepl('time', nc))){
@@ -40,13 +44,15 @@ nc2raster <- function(nc,varname,t=layer,lonname="lon",latname="lat",layer,date=
       dates <- rep(NA,max(c(1,dim(z)[3]),na.rm=T))
     }
   }  
-  lon <- as.vector(ncvar_get(nc,lonname)) # fillvalues are automatically replaced by NA
-  lat <- as.vector(ncvar_get(nc,latname)) # fillvalues are automatically replaced by NA
   
-  # print(z)
-  # stop()
+  
+  dimnames <- unlist(lapply(nc$var[[varname]]$dim, function(x) { return(x$name)}))
+
+  lon <- as.vector(ncvar_get(nc,dimnames[1])) # fillvalues are automatically replaced by NA
+  lat <- as.vector(ncvar_get(nc,dimnames[2])) # fillvalues are automatically replaced by NA
+
   z.raster <- matrix2raster(z,x=lon,y=lat)
-  names(z.raster) <- dates
+  if(!is.na(dates)[1]) names(z.raster) <- dates
   #   z.raster <- brick(z.raster)
   return(z.raster)
 }

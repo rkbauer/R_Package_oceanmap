@@ -3,6 +3,7 @@ oceanmap versions
 oceanmap_0.1.3 April 18, 2021 (Robert Bauer)
         - adding ggplotmaply function
         - revised get.bathy() function
+        - nc2raster and nc2time functions revised
 
 oceanmap_0.1.2 Aug 27, 2020 (Robert Bauer)
         - adding ggplotmap function

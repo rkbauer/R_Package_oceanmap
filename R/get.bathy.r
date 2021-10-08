@@ -16,7 +16,7 @@ v.bathy <- get.bathy <- function(v_area,lon,lat,resolution=4, keep=F, savename.b
       }
     }
   }
-  if(missing(lon) | missing(lat))stop('geographical reference missing! please revise!')
+  if(missing(lon) | missing(lat)) stop('geographical reference missing! please revise!')
   if(missing(v_area)) {
     bathy.area <- paste0('lon',lon[1],'-',lon[2],'.lat',lat[1],'-',lat[2])
   }else{

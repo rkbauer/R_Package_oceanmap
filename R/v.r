@@ -56,8 +56,8 @@ setMethod('v', signature(obj='gz'), function(obj, v_area, adaptive.vals=F,show.c
 
 setMethod('v', signature(obj='nc'), 
           function(obj, varname, t=1, layer=t, adaptive.vals=T, dates, 
-                   cb.xlab=varname, lonname="lon", latname='lat',show.colorbar=T,...){
-            obj2 <- nc2raster(obj,varname,lonname=lonname,latname=latname,date=T,layer=layer)
+                   cb.xlab=varname,show.colorbar=T,...){
+            obj2 <- nc2raster(obj,varname,layer=layer)
             if(missing(t)){
               if(!missing(layer)){
                 t <- layer
@@ -73,8 +73,8 @@ setMethod('v', signature(obj='nc'),
 
 setMethod('v', signature(obj='ncdf4'), 
           function(obj, varname, t=1, layer=t, adaptive.vals=T, dates, 
-                   cb.xlab=varname, lonname="lon", latname='lat', show.colorbar=T,...){
-            obj2 <- nc2raster(obj,varname,lonname=lonname,latname=latname,date=T)
+                   cb.xlab=varname, show.colorbar=T,...){
+            obj2 <- nc2raster(obj,varname)
             if(missing(t)){
               if(!missing(layer)){
                 t <- layer

@@ -41,7 +41,7 @@
   if (ncell.lat < 2) 
     stop("It's impossible to fetch an area with less than one cell. Either increase the latitudinal range or the resolution (i.e. use a smaller resolution value)")
     
-  fetch <- function(x1,y1,x2,y2,res) {
+  fetch <- function(x1,y1,x2,y2) {
     ncell.lon <- floor(ncell.lon)
     ncell.lat <- floor(ncell.lat)
     WEB.REQUEST <- paste0("https://gis.ngdc.noaa.gov/arcgis/rest/services/DEM_mosaics/ETOPO1_bedrock/ImageServer/exportImage?bbox=", 
@@ -92,7 +92,7 @@
       
       cat("Querying NOAA database ...\n")
       cat("This may take seconds to minutes, depending on grid size\n")
-      bath <- fetch(x1,y1,x2,y2,res)
+      bath <- fetch(x1,y1,x2,y2)
       
       if (is(bath,"try-error")) {
         stop("The NOAA server cannot be reached\n")
@@ -155,7 +155,7 @@
     }
     else {
       colnames(bath) <- paste("V", 1:3, sep = "")
-      bathy <- reshape2::acast(bath, V1 ~ V2, value.var = "V3")
+      bathy <- acast(bath, V1 ~ V2, value.var = "V3")
     }
   }
   if (!exists("bathy", inherits = FALSE)) 

@@ -15,7 +15,7 @@ importFrom("raster",mask)
 importFrom("raster",extract)
 importFrom("plotly",ggplotly)
 importFrom("plotly",layout)
-
+importFrom("reshape2",acast)
 
 importFrom("plotrix", color.legend)
 importFrom("fields", image.plot)
