@@ -124,12 +124,13 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   }
   # wrld2 = st_as_sf(map('world2', plot=F, fill=T,resolution=0))
   if(missing(add_to)) add_to <- ggplot()
-  a = add_to +
-    geom_sf(data=wrld2, fill='lightgray') +
+  a = add_to
+  if(fill.land) a <- a + 
+    geom_sf(data=wrld2, fill=col.land,colour=border) +
     geom_polygon(bg=col.land,colour=border)
   
   # if(ticklabels){
-    a <- a + coord_sf(xlim=r$xlim, ylim=r$ylim,expand = F) 
+    a <- a + coord_sf(xlim=r$xlim, ylim=r$ylim,expand = F)
   # }
     # else{
   #   a <- a + coord_sf(xlim=r$xlim, ylim=r$ylim,expand = F, datum=NA)
@@ -214,6 +215,7 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   ylabels <- seq(y[1],y[2],grid.res)
   ylabels <- ylabels[ylabels >= r$ylim[1] & ylabels <= r$ylim[2]]
   at.ylabels <- ylabels
+  
   # EW <- rep(" E",length(xlabels))
   # EW[xlabels < 0 | xlabels > 180] <- " W"
   at.xlabels <- xlabels
@@ -221,16 +223,22 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   # NS <- rep(" N",length(ylabels))
   # NS[ylabels < 0] <- " S"
   if (length(ticklabels) == 1) ticklabels <- rep(ticklabels,2)
+
   
+  xticklabels <- unlist(lapply(at.xlabels, function(x) ifelse(x < 0, paste(abs(x),"°E"), ifelse(x > 0, paste(x,"°W"),x))))
+  yticklabels <- unlist(lapply(at.ylabels, function(x) ifelse(x < 0, paste(abs(x),"°S"), ifelse(x > 0, paste(x,"°N"),x))))
+  # print(at.ylabels)
+  # print(yticklabels)
+  # print(replace(at.ylabels,values = yticklabels))
   if(!all(c(0,360) %in% at.xlabels)){
     if(ticklabels[1]) {
-      a <- a + scale_x_continuous(breaks = at.xlabels)
+      a <- a + scale_x_continuous(breaks = at.xlabels,labels=xticklabels)
     }else{
       a <- a + scale_x_continuous(breaks = at.xlabels,labels = replace(at.xlabels,values = ""))
     }
     
     if(ticklabels[2]) {
-      a <- a + scale_y_continuous(breaks = at.ylabels)
+      a <- a + scale_y_continuous(breaks = at.ylabels,labels=yticklabels)
     }else{
       a <- a + scale_y_continuous(breaks = at.ylabels,labels = replace(at.ylabels,values = ""))
     }

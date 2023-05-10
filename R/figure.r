@@ -1,5 +1,10 @@
 figure <- function(filename,folder,type,save=F,do.save=save,
                    width=10,height=10,xpos=-1,do.overwrite=T,delete.old=do.overwrite,...){
+  ## requires 
+  # library(remotes)
+  # remotes::install_version("Rttf2pt1", version = "1.3.8")
+  
+  
   if(do.save){
     if(missing(folder) & grepl('/',filename)) {
       ###' re-split filename
@@ -92,7 +97,7 @@ figure <- function(filename,folder,type,save=F,do.save=save,
     f <- fonts()
     if(length(f) == 0) font_import()
     # loadfonts() ## for cairo_pdf()
-    loadfonts(quiet = TRUE) ## for postscript
+    loadfonts(quiet = T) ## for postscript
   }
   d <- format(Sys.Date(),format='%Y%m%d')
   #   f <- paste0(.check.folder(folder),.check.point(filename),"_",d,".png")
