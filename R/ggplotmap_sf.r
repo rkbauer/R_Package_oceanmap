@@ -1,7 +1,7 @@
 ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp, 
                          grid=T, grid.res, resolution=0, 
                          main, axes=T, axeslabels=axes, ticklabels=T,#, cex.lab=0.8, cex.ticks=0.8, las=1, add=F,
-                         fill.land=T, col.land="grey", col.bg=NA, border='black', bwd=1.5, v_area, xlim, ylim){
+                         fill.land=T, col.land="grey", col.bg=NA, border='black', col.scale="black",bwd=1.5, v_area, xlim, ylim){
   worldHiresMapEnv <- NULL
   if(!missing(xlim) & !missing(ylim))  {
     ext <- extent(c(xlim,ylim))
@@ -81,7 +81,7 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   
   if(any(r$xlim <= -180)) r$xlim <- r$xlim+360
   
-  if(fill.land){
+  # if(fill.land){
     if(any(r$xlim > 180)) {
       #       data("worldmap", envir=environment())
       worldmap <- .get.worldmap(resolution)
@@ -111,7 +111,9 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
     # worlddb <- 'worldHires'
     #     maps::map(database=worlddb, fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
     #   }
-  }
+  # }
+    
+    
   
   
   
@@ -124,10 +126,14 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   }
   # wrld2 = st_as_sf(map('world2', plot=F, fill=T,resolution=0))
   if(missing(add_to)) add_to <- ggplot()
-  a = add_to
-  if(fill.land) a <- a + 
-    geom_sf(data=wrld2, fill=col.land,colour=border) +
-    geom_polygon(bg=col.land,colour=border)
+  a <- add_to
+  if(fill.land){
+    a <- a + 
+      geom_sf(data=wrld2, fill=col.land,colour=border) +
+      geom_polygon(bg=col.land,colour=border)
+  }else{
+    a <- a + geom_sf(data=wrld2, fill=NA,colour=NA)
+  }
   
   # if(ticklabels){
     a <- a + coord_sf(xlim=r$xlim, ylim=r$ylim,expand = F)
@@ -201,7 +207,7 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
               color = "black", fill = "white") +
     geom_rect(data = rects.black, inherit.aes = FALSE, #black grid rectangles
               aes_(xmin = ~ x_start, xmax = ~ x_end, ymin = ~ y_start, ymax = ~ y_end),
-              color = "black", fill = "black")  + 
+              color = "black", fill = col.scale)  + 
     labs(title=main, y=ylab, x = xlab)
   # + theme_minimal() #theme edits to make plot look like a map
   # theme(axis.title = element_blank(),
@@ -227,20 +233,26 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   
   xticklabels <- unlist(lapply(at.xlabels, function(x) ifelse(x < 0, paste(abs(x),"°E"), ifelse(x > 0, paste(x,"°W"),x))))
   yticklabels <- unlist(lapply(at.ylabels, function(x) ifelse(x < 0, paste(abs(x),"°S"), ifelse(x > 0, paste(x,"°N"),x))))
+  
+  # xticklabels <- unlist(lapply(at.xlabels, function(x) ifelse(x < 0, parse(text=paste0(abs(x),"^o", "*E")), ifelse(x > 0, parse(text=paste0(x,"^o", "*W")),x))))
+  # yticklabels <- unlist(lapply(at.ylabels, function(x) ifelse(x < 0, parse(text=paste0(abs(x),"^o", "*S")), ifelse(x > 0, parse(text=paste0(x,"^o", "*N")),x))))
+  
+  
   # print(at.ylabels)
   # print(yticklabels)
   # print(replace(at.ylabels,values = yticklabels))
   if(!all(c(0,360) %in% at.xlabels)){
     if(ticklabels[1]) {
-      a <- a + scale_x_continuous(breaks = at.xlabels,labels=xticklabels)
+      a <- a + scale_x_continuous(breaks = at.xlabels, expand = c(0, 0))
     }else{
-      a <- a + scale_x_continuous(breaks = at.xlabels,labels = replace(at.xlabels,values = ""))
+      a <- a + scale_x_continuous(breaks = at.xlabels,labels = replace(at.xlabels,values = ""), expand = c(0, 0))
     }
-    
+    # print((at.ylabels))
+    # print((yticklabels))
     if(ticklabels[2]) {
-      a <- a + scale_y_continuous(breaks = at.ylabels,labels=yticklabels)
+      a <- a + scale_y_continuous(breaks = at.ylabels, expand = c(0, 0))
     }else{
-      a <- a + scale_y_continuous(breaks = at.ylabels,labels = replace(at.ylabels,values = ""))
+      a <- a + scale_y_continuous(breaks = at.ylabels,labels = replace(at.ylabels,values = ""), expand = c(0, 0))
     }
   }
   
