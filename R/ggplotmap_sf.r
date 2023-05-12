@@ -204,10 +204,10 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
     #use geom_rect() to add border grid
     geom_rect(data = rects.white, inherit.aes = FALSE, #white grid rectangles
               aes_(xmin = ~ x_start, xmax = ~ x_end, ymin = ~ y_start, ymax = ~ y_end), 
-              color = "black", fill = "white") +
+              color = col.scale, fill = "white") +
     geom_rect(data = rects.black, inherit.aes = FALSE, #black grid rectangles
               aes_(xmin = ~ x_start, xmax = ~ x_end, ymin = ~ y_start, ymax = ~ y_end),
-              color = "black", fill = col.scale)  + 
+              color = col.scale, fill = col.scale)  + 
     labs(title=main, y=ylab, x = xlab)
   # + theme_minimal() #theme edits to make plot look like a map
   # theme(axis.title = element_blank(),
