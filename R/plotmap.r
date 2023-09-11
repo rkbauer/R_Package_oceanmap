@@ -25,7 +25,7 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   }
   
   if(!missing(region)){ #' if region information is given
-    if(class(region) == 'character') {
+    if(extends(class(region), 'character')){
       r <- regions(region) # get regions defintions/2 (extent and name)
       #       center <- r$center ## no longer needed!
       if(missing(grid.res)) grid.res <- r$grid.res[1]

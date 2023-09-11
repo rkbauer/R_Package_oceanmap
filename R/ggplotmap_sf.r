@@ -16,7 +16,7 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   }
   
   if(!missing(region)){ #' if region information is given
-    if(class(region) == 'character') {
+    if(extends(class(region), 'character')) {
       r <- regions(region) # get regions defintions/2 (extent and name)
       #       center <- r$center ## no longer needed!
       if(missing(grid.res)) grid.res <- r$grid.res[1]
@@ -231,8 +231,8 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   if (length(ticklabels) == 1) ticklabels <- rep(ticklabels,2)
 
   
-  xticklabels <- unlist(lapply(at.xlabels, function(x) ifelse(x < 0, paste(abs(x),"°E"), ifelse(x > 0, paste(x,"°W"),x))))
-  yticklabels <- unlist(lapply(at.ylabels, function(x) ifelse(x < 0, paste(abs(x),"°S"), ifelse(x > 0, paste(x,"°N"),x))))
+  xticklabels <- unlist(lapply(at.xlabels, function(x) ifelse(x < 0, paste(abs(x),"\u00B0E"), ifelse(x > 0, paste(x,"\u00B0W"),x))))
+  yticklabels <- unlist(lapply(at.ylabels, function(x) ifelse(x < 0, paste(abs(x),"\u00B0S"), ifelse(x > 0, paste(x,"\u00B0N"),x))))
   
   # xticklabels <- unlist(lapply(at.xlabels, function(x) ifelse(x < 0, parse(text=paste0(abs(x),"^o", "*E")), ifelse(x > 0, parse(text=paste0(x,"^o", "*W")),x))))
   # yticklabels <- unlist(lapply(at.ylabels, function(x) ifelse(x < 0, parse(text=paste0(abs(x),"^o", "*S")), ifelse(x > 0, parse(text=paste0(x,"^o", "*N")),x))))

@@ -1,7 +1,7 @@
 nc2time <- function(nc,varname){
   # script adapted from netCDFtoRasterCD.R
   # returns netcdf-time entries as strings
-  if(class(nc) == "character"){
+  if(extends(class(nc), 'character')){
    nc <- nc_open(nc) 
   }
   dodays <- TRUE

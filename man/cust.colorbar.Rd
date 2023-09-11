@@ -16,7 +16,7 @@ cust.colorbar(v_area, lon, lat, cbpos='', cbx, cby,
 
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{region}{
+  \item{v_area}{
 region-keyword predefined by the \link{region_definitions}-dataset or an \link[raster]{extent}.
 }
   \item{lon}{
@@ -41,16 +41,16 @@ Vector returning latitude coordinates of the area to be plotted.
   numeric vector indicating the \code{width} and \code{height} of the plot device in inches. If missing and \code{force.figdim.widget} is set \code{FALSE}, figdim is assigned a default \code{width} and \code{height} of 7in, otherwise the user will be asked to resize the plot device to set plot dimensions.
 }
 
-\item{\code{input.mode}}{
+\item{input.mode}{
 character indicating the input mode of the function: 'i' for manual colorbar placement, 'v' for a vertical colorbar on the right side of the plot or 'h' for a hoizontal colorbar below the plot..
 }
 
 
-\item{\code{force.figdim.widget}}{
+\item{force.figdim.widget}{
 whether \code{figdim} should be assigned by a widget if missing.
 }
 
-\item{\code{xpos}}{
+\item{xpos}{
   integer: initial position of the top left corner of the figure window on the pc-screen, given in pixels. Negative values are from the opposite corner. (default is -1). Disregarded under Mac OS.
 }
 

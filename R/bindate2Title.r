@@ -1,7 +1,7 @@
 bindate2Title <- function(timestep,date1, date2=date1)
 {
   Title <- c()
-  if(class(date1) == 'character'){
+  if(extends(class(date1), 'character')){
     #     if(date1 == "20030229") date1 <- "20030228"
     if(nchar(date1) > 8){
       fm <- "%Y%m%d%H"

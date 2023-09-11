@@ -19,7 +19,7 @@ ggplotmap(region=v_area, lon=xlim, lat=ylim, add_to, asp,
           grid=T, grid.res, resolution=0, 
           main, axes=T, axeslabels=axes, ticklabels=T,
           fill.land=T, col.land="grey", col.bg=NA, border='black', 
-          bwd=1.5, v_area, xlim, ylim)
+          col.scale = "black", bwd=1.5, v_area, xlim, ylim)
 }
 \arguments{
   \item{region, v_area}{
@@ -81,6 +81,9 @@ background color (ocean) to be plotted (default is NA)
   \item{border}{
 country border color of the landmask to be plotted (default is black)
 }
+  \item{col.scale}{
+color of the map scale to be plotted around the map (default is black)
+}
 
 \item{las}{
 numeric in {0,1,2,3}; the style of axis labels.
@@ -119,34 +122,34 @@ plotmap(lon=lon, lat=lat, main="Mediterranean Sea")
 plotmap(xlim=lon, ylim=lat, main="Mediterranean Sea")
 ggobj <- ggplotmap(xlim=lon, ylim=lat)
 ggobj
-ggplotmaply(ggobj)
+# ggplotmaply(ggobj)
 
 
 ## b) plot landmask of the Mediterranean Sea by using an extent-object:
-library('raster')
-ext <- extent(lon, lat)
+# library('raster')
+# ext <- extent(lon, lat)
 # plotmap(ext, main="Mediterranean Sea") # extent-object
 # ggplotmap(ext)
 
 ## c) plot landmask of the Mediterranean Sea by using a raster-object:
-r <- raster(ext)
+# r <- raster(ext)
 # plotmap(r, main="Mediterranean Sea") # raster-object
 # ggplotmap(r)
 
 ## d) plot landmask of the Mediterranean Sea by using a region label:
-plotmap('med4', main="Mediterranean Sea") # region-label
+# plotmap('med4', main="Mediterranean Sea") # region-label
 # regions() ## check preinstalled region label
 
 ## e) add landmask to an existing plot:
-plot(3.7008, 43.4079, xlim=lon, ylim=lat)
-plotmap(add=T)
-points(3.7008, 43.4079, pch=19)
-ggplotmap(xlim=lon, ylim=lat)
+# plot(3.7008, 43.4079, xlim=lon, ylim=lat)
+# plotmap(add=T)
+# points(3.7008, 43.4079, pch=19)
+# ggplotmap(xlim=lon, ylim=lat)
 
-library(ggplot2)
-ggobj <- ggplotmap("lion") + 
-         geom_point(data=data.frame(x=3.7008, y=43.4079),aes(x,y),size=5,colour="blue")
-ggobj
+# library(ggplot2)
+# ggobj <- ggplotmap("lion") + 
+#         geom_point(data=data.frame(x=3.7008, y=43.4079),aes(x,y),size=5,colour="blue")
+# ggobj
 ## ggplotmaply(ggobj)
 ## f <- ggplotmaply(ggobj)
 ## pos <- as.data.frame(list(x=c(5.83, 4.91, 5.67, 5.91, 6.31, 6.37, 
@@ -159,17 +162,17 @@ ggobj
 
 
 #### Example 2: subplots and some additional arguments of plotmap()
-par(mfrow=c(2, 1))
-plotmap('medw4', main="Western Mediterranean Sea",col.bg="darkblue")
-plotmap('medw4', main="Western Mediterranean Sea", bwd=3, border='grey', grid=FALSE)
+# par(mfrow=c(2, 1))
+# plotmap('medw4', main="Western Mediterranean Sea",col.bg="darkblue")
+# plotmap('medw4', main="Western Mediterranean Sea", bwd=3, border='grey', grid=FALSE)
 
 
 
 #### Example 3: plotmap() and figure()
-do.save <- FALSE ## open a plotting window
-figure("Gulf_of_Lions_extended", do.save=do.save, width=5, height=5, type="pdf")
-plotmap("lion",col.bg='darkblue',grid=FALSE)
-close_fig(do.save)
+# do.save <- FALSE ## open a plotting window
+# figure("Gulf_of_Lions_extended", do.save=do.save, width=5, height=5, type="pdf")
+# plotmap("lion",col.bg='darkblue',grid=FALSE)
+# close_fig(do.save)
 
 ## now resize figure manually and get new figure dimensions:
 # width <- dev.size()[1]

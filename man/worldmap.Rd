@@ -22,7 +22,7 @@ A list of class "map" with longitude (x) and latitude (y) positions of coastline
 
 \seealso{ 
 \link[mapdata]{worldHires}\cr
-\url{http://www.evl.uic.edu/pape/data/WDB/}
+\url{https://www.evl.uic.edu/pape/data/WDB/}
 } 
 
 

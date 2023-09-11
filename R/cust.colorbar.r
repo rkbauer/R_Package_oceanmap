@@ -1,10 +1,10 @@
 cust.colorbar <- function(v_area,lon,lat,cbpos='',cbx,cby,figdim,input.mode,force.figdim.widget=F,xpos=-1){
   open.dev <- F
   if(!missing(v_area)){ #' if region information is given
-    if(class(v_area) == 'character') {
+    if(extends(class(v_area), 'character')) {
       r <- regions(v_area) # get regions defintions (extent and name)
     }else{
-      if(class(v_area) == 'Extent') { 
+      if(extends(class(v_area), 'Extent')) {
         extent.vector <- as.vector(t(sp::bbox(v_area)))
         r <- data.frame(xlim=extent.vector[1:2],ylim=extent.vector[3:4])
         
