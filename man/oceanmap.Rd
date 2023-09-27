@@ -1,5 +1,5 @@
 \name{oceanmap}
-\alias{oceanmap}
+\alias{oceanmap-package}
 \docType{package}
 \title{
 oceanmap - plot tools for 2D oceanographic data  

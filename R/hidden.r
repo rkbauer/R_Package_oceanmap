@@ -41,14 +41,27 @@
   if (ncell.lat < 2) 
     stop("It's impossible to fetch an area with less than one cell. Either increase the latitudinal range or the resolution (i.e. use a smaller resolution value)")
     
-  fetch <- function(x1,y1,x2,y2) {
+  fetch <- function(x1,y1,x2,y2,dbresolution) {
+    if (dbresolution < 0.5) {
+      dbresolution <- 0.25
+    } else {
+      if (dbresolution < 1) {
+        dbresolution <- 0.5
+      }
+    }
+    if (dbresolution == 0.25) database <- "27ETOPO_2022_v1_15s_bed_elev"
+    if (dbresolution == 0.50) database <- "27ETOPO_2022_v1_30s_bed"
+    if (dbresolution  > 0.50) database <- "27ETOPO_2022_v1_60s_bed"
+    
     ncell.lon <- floor(ncell.lon)
     ncell.lat <- floor(ncell.lat)
-    WEB.REQUEST <- paste0("https://gis.ngdc.noaa.gov/arcgis/rest/services/DEM_mosaics/ETOPO1_bedrock/ImageServer/exportImage?bbox=", 
-                          x1, ",", y1, ",", x2, ",", y2, "&bboxSR=4326&size=", 
-                          ncell.lon, ",", ncell.lat, "&imageSR=4326&format=tiff&pixelType=S16&interpolation=+RSP_NearestNeighbor&compression=LZW&f=image")
-    dat <- suppressWarnings(try(raster::raster(x = WEB.REQUEST), 
-                                silent = TRUE))
+    WEB.REQUEST <- paste0("https://gis.ngdc.noaa.gov/arcgis/rest/services/DEM_mosaics/DEM_all/ImageServer/exportImage?bbox=", x1, ",", y1, ",", x2, ",", y2, 
+                          "&bboxSR=4326&size=", ncell.lon, ",", ncell.lat,
+                          "&imageSR=4326&format=tiff&pixelType=F32&interpolation=+RSP_NearestNeighbor&compression=LZ77&renderingRule={%22rasterFunction%22:%22none%22}&mosaicRule={%22where%22:%22Name=%", 
+                          database, "%27%22}&f=image")
+    download.file(url = WEB.REQUEST, destfile = "tmp.tif", mode = "wb")
+    dat <- suppressWarnings(try(raster::raster("tmp.tif"), silent = TRUE))
+    
     dat <- .as.xyz(.as.bathy(dat))
     return(dat)
   }
@@ -92,7 +105,7 @@
       
       cat("Querying NOAA database ...\n")
       cat("This may take seconds to minutes, depending on grid size\n")
-      bath <- fetch(x1,y1,x2,y2)
+      bath <- fetch(x1,y1,x2,y2,dbresolution=resolution)
       
       if (is(bath,"try-error")) {
         stop("The NOAA server cannot be reached\n")

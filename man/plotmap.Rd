@@ -122,7 +122,6 @@ plotmap(lon=lon, lat=lat, main="Mediterranean Sea")
 plotmap(xlim=lon, ylim=lat, main="Mediterranean Sea")
 ggobj <- ggplotmap(xlim=lon, ylim=lat)
 ggobj
-# ggplotmaply(ggobj)
 
 
 ## b) plot landmask of the Mediterranean Sea by using an extent-object:
@@ -157,6 +156,8 @@ ggobj
 ##                           y=c(42.89, 42.27, 42.42, 42.33, 42.1, 41.92, 
 ##                               41.74, 41.45, 41.32, 41.21, 41.04, 40.96)
 ##                          ))
+## library(dplyr)
+## library(plotly)
 ## f %>% add_trace(data = pos,x = ~x, y= ~y,type='scatter',mode='marker',name="new pos") 
 
 
