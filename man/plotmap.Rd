@@ -85,20 +85,13 @@ country border color of the landmask to be plotted (default is black)
 color of the map scale to be plotted around the map (default is black)
 }
 
-\item{las}{
-numeric in {0,1,2,3}; the style of axis labels.
-
-0:
-always parallel to the axis,
-
-1:
-always horizontal [default],
-
-2:
-always perpendicular to the axis,
-
-3:
-always vertical
+\item{las}{numeric in \{0,1,2,3\}; the style of axis labels
+\describe{
+  \item{0:}{always parallel to the axis [\emph{default}],}
+  \item{1:}{always horizontal,}
+  \item{2:}{always perpendicular to the axis,}
+  \item{3:}{always vertical.}
+  }
 }
 
 }

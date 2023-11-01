@@ -1,6 +1,9 @@
 oceanmap versions
 
-oceanmap_0.1.4 April 18, 2021 (Robert Bauer)
+oceanmap_0.1.5 October 19, 2023 (Robert Bauer)
+        - removing rgdal and maptools dependencies
+
+oceanmap_0.1.4 September 11, 2023 (Robert Bauer)
         - adding col.scale argument to ggplotmap function
 
 oceanmap_0.1.31 April 18, 2021 (Robert Bauer)

@@ -26,7 +26,7 @@ name_join(parts,filetype='gz')
 a list or dataframe with the parts:
 }
 
-\itemize{
+\describe{
 \item{\code{area}}{
 , the region keyword
 }
