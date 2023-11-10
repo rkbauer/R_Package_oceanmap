@@ -2,14 +2,14 @@ nc2raster <- function(nc,varname,t=layer,layer,verbose=FALSE){
   #   #inst.pkg('ncdf4')
   #   #inst.pkg('raster')
   #   cat(paste("editing file:",ncfile\n))
-  if(!extends(class(nc), 'ncdf4')){
+  if(!is(nc, 'ncdf4')){
     nc <- nc_open(nc) # open netcdf file
   }
   if(verbose) print(nc) # print netcdf information, like ncdump
   
   if(missing(varname)) varname <- c() 
   #   if(missing(varname)) varname <- "Conc"
-  if(!extends(class(varname), 'character')){
+  if(!is(varname, 'character')){
     if(length(names(nc$var)) == 1){ 
       varname <- names(nc$var)[1]
       warning(paste('varname is missing or not of type character! \nSelected:', varname))

@@ -126,7 +126,7 @@
 
 
 .as.xyz <- function(bathy){
-  if(!extends(class(bathy), 'bathy')) stop("Objet is not of class bathy")
+  if(!is(bathy, 'bathy')) stop("Objet is not of class bathy")
   lon <- as.numeric(rownames(bathy))
   lat <- as.numeric(colnames(bathy))
   xyz <- data.frame(expand.grid(lon, lat), as.vector(bathy))

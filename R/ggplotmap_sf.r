@@ -16,7 +16,7 @@ ggplotmap <- function(region=v_area, lon=xlim, lat=ylim, add_to, asp,
   }
   
   if(!missing(region)){ #' if region information is given
-    if(extends(class(region), 'character')) {
+    if(is(region, 'character')) {
       r <- regions(region) # get regions defintions/2 (extent and name)
       #       center <- r$center ## no longer needed!
       if(missing(grid.res)) grid.res <- r$grid.res[1]

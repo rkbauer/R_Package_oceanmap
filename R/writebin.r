@@ -4,7 +4,7 @@ writebin <- function(satdata,filename,folder,param){
   data('region_definitions',envir=environment())
   size=1
   A <- satdata
-  if(!extends(class(A), 'matrix')) A <- raster2matrix(A)
+  if(!is(A, 'matrix')) A <- raster2matrix(A)
   area <- name_split(filename)$area
   if(any(is.na(region_definitions[region_definitions$label == area,7:9]))){    
     add.px <- region_definitions[region_definitions$label == area,c(1,7:9)]

@@ -65,7 +65,7 @@ v.raster <- function(obj, varname, layer=1, param=varname, zlim, minv, maxv, ada
     }
   }else{
     v_area.valid <- T
-    if(extends(class(v_area), 'Extent')){
+    if(is(v_area, 'Extent')){
       v_area.valid <- F
       area.extent <- ext <- v_area
       obj <- crop(obj,area.extent)
