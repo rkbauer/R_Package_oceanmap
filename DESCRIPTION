@@ -5,6 +5,7 @@ Version: 0.1.6
 Date: 2023-11-10
 Author: Robert K. Bauer
 Maintainer: Robert K. Bauer <rkbauer@hawaii.edu>
+BugReports: https://github.com/rkbauer/R_Package_oceanmap/issues
 Depends: R (>= 3.5.0), maps, mapdata, raster, extrafont, reshape2
 Imports: abind, fields, plotrix, methods, utils, grDevices, sp, ncdf4, stats, lubridate, ggplot2, ggedit, sf(>= 0.9-7), plotly
 Description:  Plotting toolbox for 2D oceanographic data (satellite data, sea surface temperature, chlorophyll, ocean fronts & bathymetry). Recognized classes and formats include netcdf, Raster, '.nc' and '.gz' files.
