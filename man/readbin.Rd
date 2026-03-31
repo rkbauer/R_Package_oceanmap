@@ -18,7 +18,7 @@ Character string indicating search criteria for the \code{'.gz'}-file of interes
 See \link{region_definitions} for valid area- and \link{parameter_definitions} for valid \code{parameter}-values, respecively.
 }
   \item{Image}{
-whether the a the \code{'.gz'}-file should be plotted immediately using \link[fields]{image.plot}-function of the \link{fields}-package (default is \code{FALSE})
+whether the a the \code{'.gz'}-file should be plotted immediately using \link[fields]{image.plot}-function of the fields-package (default is \code{FALSE})
 }
   \item{byte}{
 whether the a the data of the \code{'.gz'}-file should be returned unconverted as a byte-values (default is \code{FALSE})

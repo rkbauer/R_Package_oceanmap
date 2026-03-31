@@ -1,20 +1,11 @@
-# rm(list = ls())
-# 
-# library(ggedit)
-# library(oceanmap)
-# library(plotly)
-# 
-# r <- regions("lion")
-# ggobj <- ggplotmap(lon = r$xlim,lat=r$ylim,grid.res = 8)
-
 
 ggplotmaply <- function(ggobj, fixedrange=F, grid=F,expand=3){
   p <- ggobj
   
   layer.types <- unlist(lapply(p$layers, function(x) class(x$geom)))
-  if(any(grepl("Rect",layer.types))) p <- ggedit::remove_geom(p,"rect",1)
-  if(any(grepl("Rect",layer.types))) p <- ggedit::remove_geom(p,"rect",1)
-  if(any(grepl("GeomSf",layer.types))) p <- ggedit::remove_geom(p,"GeomSf",1)
+  if(any(grepl("Rect",layer.types))) p <- .remove_geom(p,"rect",1)
+  if(any(grepl("Rect",layer.types))) p <- .remove_geom(p,"rect",1)
+  if(any(grepl("GeomSf",layer.types))) p <- .remove_geom(p,"GeomSf",1)
   p2 <- p + theme(panel.grid.major= element_blank())
   f <- f0 <- plotly::ggplotly(p2)
   
@@ -46,8 +37,8 @@ ggplotmaply <- function(ggobj, fixedrange=F, grid=F,expand=3){
     ylim <- c(ylim[1]-(2*ydiff),ylim[2]+(2*ydiff))
     p <- ggplotmap(add_to = p2, lon = xlim, lat=ylim)
   }
-  p2 <- ggedit::remove_geom(p,"rect",1)
-  p2 <- ggedit::remove_geom(p2,"rect",1)
+  p2 <- .remove_geom(p,"rect",1)
+  p2 <- .remove_geom(p2,"rect",1)
   if(!grid) p2 <- p2 + theme(panel.grid.major= element_blank())
   f <- plotly::ggplotly(p2)
   

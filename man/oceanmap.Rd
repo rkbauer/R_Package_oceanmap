@@ -14,7 +14,7 @@ The \code{oceanmap} package provides some helpful functions to facilitate and op
 \bold{Major functions:}\cr
 \itemize{
 \item{\link{plotmap}: plots landmask as basis or overlay}
-\item{\link{v}: plots oceanographic data (fronts, SST, chla, bathymetry, etc.) from \link{raster}-objects, ncdf4- or gz-files}
+\item{\link{v}: plots oceanographic data (fronts, SST, chla, bathymetry, etc.) from \link[raster]{raster}-objects, ncdf4- or gz-files}
 \item{\link{set.colorbar}: adds a colorbar to current figure, allowing several placement methods}
 \item{\link{get.bathy}: download bahymetric data at user defined resolution from the NOAA ETOPO1 database}
 \item{\link{add.region}: generate region definitions to facilitate land mask and colorbar plotting using \link{plotmap} and \link{v}}

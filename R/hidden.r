@@ -1,3 +1,24 @@
+.remove_geom <- function (p, geom, idx = NULL) 
+{
+    layers <- p$layers
+    layer.type <- lapply(p$layers, function(x) class(x$geom))
+    a.rm <- which(grepl(paste0("(?i)", geom), layer.type))
+    if (length(a.rm) == 0) {
+        stop(paste0("There are no ", geom, " layers available in the plot to remove"), 
+            call. = FALSE)
+    }
+    if (is.null(idx)) {
+        idx <- length(a.rm)
+    }
+    if (length(a.rm) >= idx) {
+        a.rm <- a.rm[idx]
+    }
+    layers <- layers[-a.rm]
+    p$layers <- layers
+    return(p)
+}
+
+
 .getNOAA.bathy <- function(lon1, lon2, lat1, lat2, resolution = 4, keep=FALSE, antimeridian=FALSE)   {
   x1=x2=y1=y2 = NULL
   if (lon1 == lon2) 

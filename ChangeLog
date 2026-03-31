@@ -1,5 +1,9 @@
 oceanmap versions
 
+oceanmap_0.1.7 September 19, 2025 (Robert Bauer)
+        - new maintainer email address
+        - minor fixes in documentary according to note remarks from cran server
+
 oceanmap_0.1.5 October 19, 2023 (Robert Bauer)
         - removing rgdal and maptools dependencies
 
